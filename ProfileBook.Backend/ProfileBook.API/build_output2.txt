@@ -1,0 +1,17 @@
+﻿  Determining projects to restore...
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj : warning NU1608: Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 16.1.1 was resolved.
+  All projects are up-to-date for restore.
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj : warning NU1608: Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 16.1.1 was resolved.
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\Controllers\AuthController.cs(21,22): error CS0246: The type or namespace name 'IUserService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj]
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\Controllers\AuthController.cs(23,78): error CS0246: The type or namespace name 'IUserService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj]
+
+Build FAILED.
+
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj : warning NU1608: Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 16.1.1 was resolved.
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj : warning NU1608: Detected package version outside of dependency constraint: AutoMapper.Extensions.Microsoft.DependencyInjection 12.0.1 requires AutoMapper (= 12.0.1) but version AutoMapper 16.1.1 was resolved.
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\Controllers\AuthController.cs(21,22): error CS0246: The type or namespace name 'IUserService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj]
+C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\Controllers\AuthController.cs(23,78): error CS0246: The type or namespace name 'IUserService' could not be found (are you missing a using directive or an assembly reference?) [C:\Users\iaman\source\repos\CapstoneProject\ProfileBook\ProfileBook.Backend\ProfileBook.API\ProfileBook.API.csproj]
+    2 Warning(s)
+    2 Error(s)
+
+Time Elapsed 00:00:01.45
