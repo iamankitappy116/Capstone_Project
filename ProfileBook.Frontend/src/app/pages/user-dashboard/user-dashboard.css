@@ -1,0 +1,14 @@
+.dashboard-container {
+    display: flex;
+    background-color: #f9fafb;
+    height: calc(100vh - 61px);
+    overflow: hidden; /* Prevent page scroll */
+}
+
+.dashboard-content {
+    flex: 1;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 24px;
+    overflow-y: auto; /* Only this part scrolls */
+}

@@ -1,0 +1,59 @@
+<div class="page-header">
+  <div class="title-section">
+    <h1>Reported Users</h1>
+    <p>Review and take action on user reports</p>
+  </div>
+</div>
+
+<div class="card table-card">
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>Reported User</th>
+          <th>Reporting User</th>
+          <th>Reason</th>
+          <th>Severity</th>
+          <th>Reported</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let report of reports">
+          <td>
+            <div class="user-info">
+              <img [src]="'https://ui-avatars.com/api/?name=' + report.reportedUserName + '&background=random'" class="avatar" alt="">
+              <span class="user-name">{{report.reportedUserName}}</span>
+            </div>
+          </td>
+          <td>
+            <div class="user-info">
+              <img [src]="'https://ui-avatars.com/api/?name=' + report.reportingUserName + '&background=random'" class="avatar mini" alt="">
+              <span class="reporter-name">{{report.reportingUserName}}</span>
+            </div>
+          </td>
+          <td>{{report.reason}}</td>
+          <td>
+            <span class="badge" [ngClass]="'badge-' + report.severity.toLowerCase()">
+              {{report.severity}}
+            </span>
+          </td>
+          <td class="time-col">{{report.timeStamp | date:'shortTime'}} today</td>
+          <td class="text-right">
+            <div class="action-buttons">
+              <button (click)="warnUser(report.reportedUserId)" class="btn btn-outline">
+                  <i class="fa-solid fa-triangle-exclamation" style="margin-right: 4px;"></i> Warn
+              </button>
+              <button (click)="deleteUser(report.reportedUserId)" class="btn btn-danger">
+                  <i class="fa-solid fa-trash-can" style="margin-right: 4px;"></i> Delete
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="reports.length === 0 && !loading">
+          <td colspan="6" class="empty-state">No active reports.</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

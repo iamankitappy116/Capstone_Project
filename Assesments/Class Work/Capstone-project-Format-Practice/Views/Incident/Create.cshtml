@@ -1,0 +1,93 @@
+@model Crime.Models.Incident
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4><a asp-action="Index" class="text-dark me-2 text-decoration-none" title="Back to List"><i class="bi bi-arrow-left"></i></a> Incident</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            
+            <div class="row mb-3">
+                <label asp-for="IncidentType" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <input asp-for="IncidentType" class="form-control" />
+                    <span asp-validation-for="IncidentType" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="IncidentDate" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <input asp-for="IncidentDate" class="form-control" />
+                    <span asp-validation-for="IncidentDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Location" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <input asp-for="Location" class="form-control" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Description" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <input asp-for="Description" class="form-control" />
+                    <span asp-validation-for="Description" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Status" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <select asp-for="Status" class="form-select">
+                        <option value="Open">Open</option>
+                        <option value="Closed">Closed</option>
+                        <option value="Under Investigation">Under Investigation</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="VictimId" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <select asp-for="VictimId" class ="form-control" asp-items="ViewBag.VictimId"></select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="SuspectId" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <select asp-for="SuspectId" class ="form-control" asp-items="ViewBag.SuspectId"></select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="AgencyId" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <select asp-for="AgencyId" class ="form-control" asp-items="ViewBag.AgencyId"></select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-9 offset-sm-3">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

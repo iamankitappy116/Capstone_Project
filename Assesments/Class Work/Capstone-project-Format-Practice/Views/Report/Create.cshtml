@@ -1,0 +1,69 @@
+@model Crime.Models.Report
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4><a asp-action="Index" class="text-dark me-2 text-decoration-none" title="Back to List"><i class="bi bi-arrow-left"></i></a> Report</h4>
+<hr />
+<div class="row">
+    <div class="col-md-8">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <div class="row mb-3">
+                <label asp-for="ReportDate" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <input asp-for="ReportDate" class="form-control" />
+                    <span asp-validation-for="ReportDate" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="ReportDetails" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <input asp-for="ReportDetails" class="form-control" />
+                    <span asp-validation-for="ReportDetails" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="Status" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <select asp-for="Status" class="form-select">
+                        <option value="Draft">Draft</option>
+                        <option value="Finalized">Finalized</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="IncidentId" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <select asp-for="IncidentId" class ="form-control" asp-items="ViewBag.IncidentId"></select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <label asp-for="ReportingOfficerId" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <select asp-for="ReportingOfficerId" class ="form-control" asp-items="ViewBag.ReportingOfficerId"></select>
+                </div>
+            </div>
+
+            <div class="row mb-3">
+                <div class="col-sm-9 offset-sm-3">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,52 @@
+<div class="admin-container">
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <div class="brand">
+      <div class="logo-icon">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <div class="brand-text">
+        <h2>ProfileBook</h2>
+        <span>Admin Panel</span>
+      </div>
+    </div>
+
+    <nav class="nav-menu">
+      <a [routerLink]="['/admin-dashboard/stats']" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-gauge-high"></i>
+        Dashboard
+      </a>
+      <a [routerLink]="['/admin-dashboard/users']" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-users"></i>
+        Users
+      </a>
+      <a [routerLink]="['/admin-dashboard/approvals']" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-circle-check"></i>
+        Post Approvals
+      </a>
+      <a [routerLink]="['/admin-dashboard/reports']" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+        Reported Users
+      </a>
+      <a [routerLink]="['/admin-dashboard/groups']" routerLinkActive="active" class="nav-item">
+        <i class="fa-solid fa-layer-group"></i>
+        Groups
+      </a>
+    </nav>
+
+    <div class="sidebar-footer">
+      <a (click)="logout()" class="nav-item logout">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        Logout
+      </a>
+      <div class="sidebar-copyright">
+        © 2024 ProfileBook
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main Content -->
+  <main class="main-content">
+    <router-outlet></router-outlet>
+  </main>
+</div>

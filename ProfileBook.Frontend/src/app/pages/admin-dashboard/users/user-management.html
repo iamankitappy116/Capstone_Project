@@ -1,0 +1,91 @@
+<div class="page-header">
+  <div class="title-section">
+    <h1>User Management</h1>
+    <p>Manage all users on the platform</p>
+  </div>
+  <button (click)="openCreateModal()" class="btn btn-primary">Add New User</button>
+</div>
+
+<div class="card table-card">
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th>Joined</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let user of users">
+          <td>
+            <div class="user-info">
+              <img [src]="user.profileImage ? 'http://localhost:5134' + user.profileImage : 'https://ui-avatars.com/api/?name=' + user.username + '&background=random'" class="avatar" alt="">
+              <span class="user-name">{{user.username}}</span>
+            </div>
+          </td>
+          <td>{{user.email}}</td>
+          <td>
+            <span class="badge" [ngClass]="user.role === 'Admin' ? 'badge-admin' : 'badge-user'">
+              {{user.role}}
+            </span>
+          </td>
+          <td>{{user.createdAt | date:'MMM d, yyyy'}}</td>
+          <td class="text-right">
+            <div class="action-buttons">
+              <button (click)="editUser(user)" class="btn-icon">
+                <i class="fa-solid fa-pen-to-square"></i>
+              </button>
+              <button (click)="deleteUser(user.userId)" class="btn-icon delete">
+                <i class="fa-solid fa-trash-can"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="users.length === 0 && !loading">
+          <td colspan="5" class="empty-state">No users found.</td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="5" class="empty-state">Loading users...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Create User Modal -->
+<div class="modal-overlay" *ngIf="showModal">
+  <div class="modal-card">
+    <div class="modal-header">
+      <h3>Add New User</h3>
+      <button class="close-btn" (click)="closeModal()">&times;</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-group">
+        <label>Username</label>
+        <input type="text" [(ngModel)]="newUser.username" placeholder="Enter username">
+      </div>
+      <div class="form-group">
+        <label>Email</label>
+        <input type="email" [(ngModel)]="newUser.email" placeholder="Enter email">
+      </div>
+      <div class="form-group">
+        <label>Password</label>
+        <input type="password" [(ngModel)]="newUser.password" placeholder="Enter password">
+      </div>
+      <div class="form-group">
+        <label>Role</label>
+        <select [(ngModel)]="newUser.role">
+          <option value="User">User</option>
+          <option value="Admin">Admin</option>
+        </select>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
+      <button class="btn btn-primary" (click)="createUser()">Create User</button>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,92 @@
+<div class="profile-container" *ngIf="userProfile">
+    
+    <div class="profile-header-card">
+        <div class="profile-pic-large">
+            <div class="avatar-wrapper">
+                <img [src]="getProfileImageUrl()" alt="Profile Avatar" class="profile-avatar">
+                
+                <div class="avatar-overlay" *ngIf="isEditing" (click)="fileInput.click()">
+                    <i class="fa fa-camera"></i>
+                </div>
+                <!-- Hidden file input -->
+                <input type="file" #fileInput (change)="onPhotoSelected($event)" accept="image/*" style="display: none;">
+            </div>
+        </div>
+        
+        <div class="profile-info">
+            <div class="name-row">
+                <h2>{{ userProfile.username }}</h2>
+                <div class="action-buttons">
+                    <button class="message-btn" *ngIf="!isEditing" (click)="toggleEditMode()">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"/><path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5v11z"/></svg>
+                        Edit Profile
+                    </button>
+                    
+                    <ng-container *ngIf="isEditing">
+                        <button class="cancel-btn" (click)="toggleEditMode()">Cancel</button>
+                        <button class="save-btn" (click)="saveProfile()">Save Changes</button>
+                    </ng-container>
+                </div>
+            </div>
+            
+            <p class="handle" *ngIf="userProfile.username">{{ '@' + userProfile.username.toLowerCase().replace(' ', '') }}</p>
+            
+            
+            <ng-container *ngIf="!isEditing">
+                <p class="bio">{{ userProfile.bio || 'This user has not set a bio yet.' }}</p>
+            </ng-container>
+
+            
+            <ng-container *ngIf="isEditing">
+                <div class="edit-field">
+                    <label>Bio</label>
+                    <textarea class="edit-input" [(ngModel)]="editProfile.bio" rows="3" placeholder="Write something about yourself..."></textarea>
+                </div>
+                <div class="edit-field">
+                    <label>Location</label>
+                    <input type="text" class="edit-input" [(ngModel)]="editProfile.location" placeholder="E.g. San Francisco, CA">
+                </div>
+            </ng-container>
+            
+            <div class="stats-row" *ngIf="!isEditing">
+                <span class="location" *ngIf="userProfile.location">
+                   <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" fill="currentColor" viewBox="0 0 16 16">
+                     <path d="M8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10zm0-7a3 3 0 1 1 0-6 3 3 0 0 1 0 6z"/>
+                   </svg>
+                   {{ userProfile.location }}
+                </span>
+                <span><strong>{{ userPosts.length }}</strong> Posts</span>
+                <span><strong>{{ userProfile.followerCount }}</strong> Followers</span>
+                <span><strong>{{ userProfile.followingCount }}</strong> Following</span>
+            </div>
+        </div>
+    </div>
+
+    <h3 class="section-title">Posts</h3>
+    
+    <div class="post-card" *ngFor="let post of userPosts">
+        <div class="post-header">
+            <div class="profile-pic-small">
+                <img [src]="userProfile.profileImage ? 'http://localhost:5134' + userProfile.profileImage : 'https://ui-avatars.com/api/?name=' + userProfile.username + '&background=random'" alt="User">
+            </div>
+            <div class="post-meta">
+                <h3>{{ userProfile.username }}</h3>
+                <span>{{ post.createdAt | date:'short' }}</span>
+            </div>
+            <div class="post-options">
+                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16"><path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/></svg>
+            </div>
+        </div>
+        <div class="post-content">
+            <p>{{ post.content }}</p>
+            <div class="post-media" *ngIf="post.mediaUrl">
+                <img *ngIf="post.mediaType === 'image'" [src]="'http://localhost:5134' + post.mediaUrl">
+                <video *ngIf="post.mediaType === 'video'" [src]="'http://localhost:5134' + post.mediaUrl" controls></video>
+            </div>
+        </div>
+    </div>
+
+    <div *ngIf="userPosts.length === 0" style="text-align: center; color: #6b7280; padding: 40px; background: white; border-radius: 12px; border: 1px solid #e5e7eb;">
+        You haven't posted anything yet!
+    </div>
+</div>

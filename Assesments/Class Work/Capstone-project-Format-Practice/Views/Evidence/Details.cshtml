@@ -1,0 +1,36 @@
+@model Crime.Models.Evidence
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>Evidence</h4>
+    <hr />
+    <dl class="row">
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Description)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Description)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.LocationFound)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.LocationFound)
+        </dd>
+        <dt class = "col-sm-2">
+            @Html.DisplayNameFor(model => model.Incident)
+        </dt>
+        <dd class = "col-sm-10">
+            @Html.DisplayFor(model => model.Incident.IncidentId)
+        </dd>
+    </dl>
+</div>
+<div class="mt-3">
+    <a asp-action="Edit" asp-route-id="@Model?.EvidenceId" class="btn btn-primary">Edit</a>
+    <a asp-action="Index" class="btn btn-secondary">Back to List</a>
+</div>

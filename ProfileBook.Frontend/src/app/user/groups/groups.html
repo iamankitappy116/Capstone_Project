@@ -1,0 +1,87 @@
+<div class="groups-dashboard">
+    <div class="groups-header">
+        <div class="header-content">
+            <h1>Groups</h1>
+            <p>Connect with people who share your interests</p>
+        </div>
+    </div>
+
+    <div class="search-section">
+        <div class="search-bar">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="#9ca3af" viewBox="0 0 16 16">
+                <path
+                    d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+            </svg>
+            <input type="text" [(ngModel)]="searchQuery" placeholder="Search groups...">
+        </div>
+    </div>
+
+    <!-- My Groups Section -->
+    <div class="groups-section" *ngIf="myGroups.length > 0">
+        <div class="section-header">
+            <h2>My Groups ({{ myGroups.length }})</h2>
+        </div>
+        <div class="groups-grid">
+            <div *ngFor="let group of myGroups" class="group-card">
+                <div class="card-header">
+                    <div class="group-icon" [style.background-color]="'#3b82f6'">
+                        {{ getGroupInitial(group.groupName) }}
+                    </div>
+                    <div class="group-title-info">
+                        <h3>{{ group.groupName }}</h3>
+                        <span class="category-badge">{{ group.category || 'General' }}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>{{ group.description || 'No description provided.' }}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="group-stats">
+                        <span><i class="fas fa-users"></i> {{ group.memberCount }} members</span>
+                        <span><i class="fas fa-file-alt"></i> {{ group.postCount }} posts</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-joined" disabled>Joined</button>
+                        <button class="btn-view" (click)="viewGroup(group.groupId)">View Group</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Suggested Groups Section -->
+    <div class="groups-section">
+        <div class="section-header">
+            <h2>Suggested Groups</h2>
+        </div>
+        <div class="groups-grid">
+            <div *ngFor="let group of getFilteredSuggestedGroups()" class="group-card">
+                <div class="card-header">
+                    <div class="group-icon" [style.background-color]="'#10b981'">
+                        {{ getGroupInitial(group.groupName) }}
+                    </div>
+                    <div class="group-title-info">
+                        <h3>{{ group.groupName }}</h3>
+                        <span class="category-badge">{{ group.category || 'General' }}</span>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <p>{{ group.description || 'No description provided.' }}</p>
+                </div>
+                <div class="card-footer">
+                    <div class="group-stats">
+                        <span><i class="fas fa-users"></i> {{ group.memberCount }} members</span>
+                        <span><i class="fas fa-file-alt"></i> {{ group.postCount }} posts</span>
+                    </div>
+                    <div class="card-actions">
+                        <button class="btn-join" (click)="joinGroup(group.groupId)">Join</button>
+                        <button class="btn-view" (click)="viewGroup(group.groupId)">View Group</button>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="getFilteredSuggestedGroups().length === 0" class="no-results">
+                No groups found matching your search.
+            </div>
+        </div>
+    </div>
+</div>

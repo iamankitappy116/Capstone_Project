@@ -1,0 +1,35 @@
+@model IEnumerable<AtomicityExSalesProduct.Models.AppUser>
+
+@{
+    ViewData["Title"] = "Users";
+}
+
+<h2>Index</h2>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>@Html.DisplayNameFor(m => m.First().Name)</th>
+            <th>@Html.DisplayNameFor(m => m.First().Email)</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+            <tr>
+                <td>@Html.DisplayFor(_ => user.Name)</td>
+                <td>@Html.DisplayFor(_ => user.Email)</td>
+                <td>
+                    <a asp-action="Edit"    asp-route-id="@user.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@user.Id">Details</a> |
+                    <a asp-action="Delete"  asp-route-id="@user.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

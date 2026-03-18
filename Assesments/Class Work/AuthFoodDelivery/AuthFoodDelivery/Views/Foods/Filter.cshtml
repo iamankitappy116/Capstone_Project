@@ -1,0 +1,65 @@
+@{
+    ViewData["Title"] = "Filter Foods by Category";
+}
+
+<div class="container mt-5">
+    <div class="card shadow">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Filter Foods by Category</h2>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                <div class="col-md-6 mb-3">
+                    <label for="categoryDropdown" class="form-label font-weight-bold">Select Category:</label>
+                    <select id="categoryDropdown" class="form-select form-control-lg" asp-items="ViewBag.Categories">
+                        <option value="">-- Select a Category --</option>
+                    </select>
+                </div>
+                <div class="col-md-6 mb-3">
+                    <label for="foodDropdown" class="form-label font-weight-bold">Available Foods:</label>
+                    <select id="foodDropdown" class="form-select form-control-lg" disabled>
+                        <option value="">-- First Select a Category --</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div id="noFoodsAlert" class="alert alert-warning mt-3 d-none" role="alert">
+                No foods found in this category.
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $('#categoryDropdown').on('change', function() {
+            const categoryId = $(this).val();
+            const $foodDropdown = $('#foodDropdown');
+            const $alertBox = $('#noFoodsAlert');
+
+            if (!categoryId) {
+                $foodDropdown.html('<option value="">-- First Select a Category --</option>').prop('disabled', true);
+                $alertBox.addClass('d-none');
+                return;
+            }
+
+            $.getJSON(`/Foods/GetFoodsByCategory/${categoryId}`, function(foods) {
+                $foodDropdown.empty();
+                $alertBox.addClass('d-none');
+
+                if (foods.length > 0) {
+                    $foodDropdown.prop('disabled', false).append('<option value="">-- Select a Food --</option>');
+                    foods.forEach(food => {
+                        $foodDropdown.append($('<option>', { value: food.id, text: food.name }));
+                    });
+                } else {
+                    $foodDropdown.prop('disabled', true).html('<option value="">-- No Foods Available --</option>');
+                    $alertBox.removeClass('d-none');
+                }
+            }).fail(function() {
+                alert('An error occurred while fetching foods.');
+            });
+        });
+    </script>
+}

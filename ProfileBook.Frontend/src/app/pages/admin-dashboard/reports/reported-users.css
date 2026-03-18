@@ -1,0 +1,128 @@
+.page-header {
+  margin-bottom: 32px;
+}
+
+.page-header h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  margin: 0 0 8px;
+}
+
+.page-header p {
+  color: #666;
+  margin: 0;
+}
+
+.table-card {
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th {
+  text-align: left;
+  padding: 16px 24px;
+  background-color: #fcfcfd;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #666;
+  border-bottom: 1px solid #f3f4f6;
+}
+
+td {
+  padding: 16px 24px;
+  border-bottom: 1px solid #f3f4f6;
+  vertical-align: middle;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: #eee;
+}
+
+.avatar.mini {
+  width: 24px;
+  height: 24px;
+}
+
+.user-name {
+  font-weight: 600;
+}
+
+.reporter-name {
+  font-size: 0.9rem;
+  color: #666;
+}
+
+.badge {
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.badge-high { background-color: #fee2e2; color: #b91c1c; }
+.badge-medium { background-color: #fef9c3; color: #a16207; }
+
+.time-col {
+  font-size: 0.85rem;
+  color: #999;
+}
+
+.text-right { text-align: right; }
+
+.action-buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 8px;
+}
+
+.btn {
+  padding: 6px 14px;
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  cursor: pointer;
+  border: none;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.btn-outline {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #555;
+}
+
+.btn-outline:hover {
+  background-color: #f9fafb;
+}
+
+.btn-danger {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.btn-danger:hover {
+  background-color: #dc2626;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 40px;
+  color: #999;
+}

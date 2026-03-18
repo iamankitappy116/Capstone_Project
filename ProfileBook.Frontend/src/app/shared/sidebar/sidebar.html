@@ -1,0 +1,31 @@
+<aside class="sidebar">
+    <div class="nav-links">
+        <a routerLink="/dashboard/profile" routerLinkActive="active" class="nav-item">
+            <i class="fa-solid fa-user"></i>
+            Profile
+        </a>
+        <a routerLink="/dashboard/feed" routerLinkActive="active" class="nav-item">
+            <i class="fa-solid fa-house"></i>
+            Feed
+        </a>
+        <a routerLink="/dashboard/messages" routerLinkActive="active" class="nav-item">
+            <i class="fa-solid fa-envelope"></i>
+            Messages
+        </a>
+        <a routerLink="/dashboard/groups" routerLinkActive="active" class="nav-item">
+            <i class="fa-solid fa-users"></i>
+            Groups
+        </a>
+        <a *ngIf="isAdmin" routerLink="/admin-dashboard" routerLinkActive="active" class="nav-item admin-link">
+            <i class="fa-solid fa-shield-halved"></i>
+            Admin Panel
+        </a>
+    </div>
+
+    <div class="logout-section" (click)="logout()">
+        <a class="nav-item logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            Logout
+        </a>
+    </div>
+</aside>

@@ -1,0 +1,79 @@
+@model Crime.Models.Case
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div class="card shadow-sm mb-4">
+    <div class="card-body">
+        <h4 class="card-title text-primary"><i class="bi bi-folder2-open me-2"></i>Case Information</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-3 fw-bold">
+                @Html.DisplayNameFor(model => model.CaseDescription)
+            </dt>
+            <dd class="col-sm-9">
+                @Html.DisplayFor(model => model.CaseDescription)
+            </dd>
+        </dl>
+    </div>
+</div>
+
+<div class="card shadow-sm">
+    <div class="card-body">
+        <h4 class="card-title text-info"><i class="bi bi-incognito me-2"></i>Linked Incidents</h4>
+        <div class="table-responsive mt-3">
+            <table class="table table-hover align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Type</th>
+                        <th>Date</th>
+                        <th>Location</th>
+                        <th>Status</th>
+                        <th class="text-end">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @if (Model.Incidents != null && Model.Incidents.Any())
+                    {
+                        foreach (var incident in Model.Incidents)
+                        {
+                            <tr>
+                                <td>@incident.IncidentType</td>
+                                <td>@incident.IncidentDate.ToShortDateString()</td>
+                                <td>@incident.Location</td>
+                                <td>
+                                    <span class="badge @(incident.Status == "Closed" ? "bg-success" : (incident.Status == "Open" ? "bg-primary" : "bg-warning text-dark"))">
+                                        @incident.Status
+                                    </span>
+                                </td>
+                                <td class="text-end">
+                                    <a asp-controller="Incident" asp-action="Details" asp-route-id="@incident.IncidentId" class="btn btn-sm btn-outline-info">
+                                        <i class="bi bi-eye"></i> View
+                                    </a>
+                                </td>
+                            </tr>
+                        }
+                    }
+                    else
+                    {
+                        <tr>
+                            <td colspan="5" class="text-center text-muted py-4">No incidents linked to this case yet.</td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<div class="mt-4">
+    <a asp-action="Edit" asp-route-id="@Model?.CaseId" class="btn btn-primary d-inline-flex align-items-center">
+        <i class="bi bi-pencil-square me-1"></i> Edit
+    </a>
+    <a asp-action="Index" class="btn btn-outline-secondary d-inline-flex align-items-center ms-2">
+        <i class="bi bi-arrow-left me-1"></i> Back to List
+    </a>
+</div>

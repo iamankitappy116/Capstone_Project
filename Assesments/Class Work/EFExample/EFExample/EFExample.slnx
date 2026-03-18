@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../EFExample.Tests/EFExample.Tests.csproj" />
+  <Project Path="../MyModels/MyModels.csproj" />
+  <Project Path="../repo/repo.csproj" />
+  <Project Path="EFExample.csproj" />
+</Solution>

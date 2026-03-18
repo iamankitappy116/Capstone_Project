@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "BookStoreAPI": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:58540;http://localhost:58541"
+    }
+  }
+}

@@ -1,0 +1,193 @@
+﻿@{
+    ViewData["Title"] = "Home - Crime Analysis & Reporting System";
+}
+
+<!-- ===== HERO SECTION ===== -->
+<section class="hero-section" id="about">
+    <div class="row align-items-center g-5">
+        <!-- Left: Detective Image -->
+        <div class="col-lg-5 text-center">
+            <div class="hero-image-wrapper">
+                <img src="~/images/detective-hero.png" alt="The Detectives" class="hero-image" />
+            </div>
+        </div>
+        <!-- Right: 3 Bullet Points -->
+        <div class="col-lg-7">
+            <h1 class="hero-title">Crime Analysis &<br /><span class="hero-highlight">Reporting System</span></h1>
+            <p class="hero-subtitle">Your all-in-one command center for law enforcement operations.</p>
+
+            <div class="hero-features">
+                <div class="hero-feature-item">
+                    <div class="feature-icon-circle bg-icon-blue">
+                        <i class="bi bi-search"></i>
+                    </div>
+                    <div>
+                        <h5 class="feature-title">Manage Incidents & Cases</h5>
+                        <p class="feature-desc">Log, track, and resolve crime incidents and investigation cases from a single dashboard.</p>
+                    </div>
+                </div>
+                <div class="hero-feature-item">
+                    <div class="feature-icon-circle bg-icon-green">
+                        <i class="bi bi-people-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="feature-title">Coordinate Officers & Agencies</h5>
+                        <p class="feature-desc">Assign officers, manage agencies, and ensure seamless communication across departments.</p>
+                    </div>
+                </div>
+                <div class="hero-feature-item">
+                    <div class="feature-icon-circle bg-icon-orange">
+                        <i class="bi bi-clipboard-data-fill"></i>
+                    </div>
+                    <div>
+                        <h5 class="feature-title">Generate Reports & Evidence Logs</h5>
+                        <p class="feature-desc">Catalog evidence, produce detailed reports, and maintain a complete audit trail.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===== SERVICES SECTION ===== -->
+<section class="services-section" id="services">
+    <h2 class="section-heading"><i class="bi bi-grid-3x3-gap-fill"></i> Services & Modules</h2>
+    <p class="section-subheading">Access all system modules directly from here.</p>
+
+    <div class="row g-4">
+        <!-- Incidents -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Incident" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-1">
+                    <div class="service-icon"><i class="bi bi-exclamation-triangle-fill"></i></div>
+                    <h5>Incidents</h5>
+                    <p>Report & manage crime incidents</p>
+                </div>
+            </a>
+        </div>
+        <!-- Cases -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Case" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-2">
+                    <div class="service-icon"><i class="bi bi-folder-fill"></i></div>
+                    <h5>Cases</h5>
+                    <p>Create & track investigation cases</p>
+                </div>
+            </a>
+        </div>
+        <!-- Officers -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Officers" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-3">
+                    <div class="service-icon"><i class="bi bi-person-badge-fill"></i></div>
+                    <h5>Officers</h5>
+                    <p>Manage law enforcement officers</p>
+                </div>
+            </a>
+        </div>
+        <!-- Suspects -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Suspects" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-4">
+                    <div class="service-icon"><i class="bi bi-person-x-fill"></i></div>
+                    <h5>Suspects</h5>
+                    <p>Track suspects in criminal cases</p>
+                </div>
+            </a>
+        </div>
+        <!-- Victims -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Victim" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-5">
+                    <div class="service-icon"><i class="bi bi-person-fill"></i></div>
+                    <h5>Victims</h5>
+                    <p>Maintain victim records</p>
+                </div>
+            </a>
+        </div>
+        <!-- Agencies -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Agency" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-6">
+                    <div class="service-icon"><i class="bi bi-building-fill"></i></div>
+                    <h5>Agencies</h5>
+                    <p>Manage law enforcement agencies</p>
+                </div>
+            </a>
+        </div>
+        <!-- Evidence -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Evidence" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-7">
+                    <div class="service-icon"><i class="bi bi-fingerprint"></i></div>
+                    <h5>Evidence</h5>
+                    <p>Catalog & manage evidence</p>
+                </div>
+            </a>
+        </div>
+        <!-- Reports -->
+        <div class="col-lg-3 col-md-4 col-sm-6">
+            <a asp-controller="Report" asp-action="Index" class="service-card-link">
+                <div class="service-card service-card-8">
+                    <div class="service-icon"><i class="bi bi-file-earmark-bar-graph-fill"></i></div>
+                    <h5>Reports</h5>
+                    <p>Generate & download reports</p>
+                </div>
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- ===== WORKFLOW FLOWCHART ===== -->
+<section class="workflow-section" id="workflow">
+    <h2 class="section-heading"><i class="bi bi-diagram-3-fill"></i> System Workflow</h2>
+    <p class="section-subheading">Understand the dependencies — what needs to be created before what.</p>
+
+    <div class="fc">
+        <!-- ROW 1: Victim, Suspect, Agency -->
+        <div class="fc-row">
+            <div class="fc-node fc-blue"><i class="bi bi-person-fill"></i> Victim</div>
+            <div class="fc-node fc-red"><i class="bi bi-person-x-fill"></i> Suspect</div>
+            <div class="fc-node fc-teal"><i class="bi bi-building-fill"></i> Agency</div>
+        </div>
+
+        <!-- CONNECTORS: 3-to-1 merge into Incident + straight down to Officer -->
+        <div class="fc-connectors-1">
+            <div class="fc-merge-line">
+                <div class="fc-h-line"></div>
+            </div>
+            <div class="fc-split-down">
+                <div class="fc-v-line fc-v-left"></div>
+                <div class="fc-v-line fc-v-right"></div>
+            </div>
+        </div>
+
+        <!-- ROW 2: Incident, Officer -->
+        <div class="fc-row fc-row-spread">
+            <div class="fc-node fc-purple"><i class="bi bi-exclamation-triangle-fill"></i> Incident</div>
+            <div class="fc-node fc-indigo"><i class="bi bi-person-badge-fill"></i> Officer</div>
+        </div>
+
+        <!-- CONNECTORS: Incident splits to Evidence & Report, Officer goes to Report -->
+        <div class="fc-connectors-2">
+            <div class="fc-split-down">
+                <div class="fc-v-line fc-v-left"></div>
+                <div class="fc-v-line fc-v-right"></div>
+            </div>
+        </div>
+
+        <!-- ROW 3: Evidence, Report -->
+        <div class="fc-row fc-row-spread">
+            <div class="fc-node fc-amber"><i class="bi bi-fingerprint"></i> Evidence</div>
+            <div class="fc-node fc-dark"><i class="bi bi-file-earmark-bar-graph-fill"></i> Report</div>
+        </div>
+
+        <!-- Legend -->
+        <div class="fc-legend">
+            <span><i class="bi bi-info-circle"></i> Incident requires <strong>Victim + Suspect + Agency</strong></span>
+            <span><i class="bi bi-info-circle"></i> Officer requires <strong>Agency</strong></span>
+            <span><i class="bi bi-info-circle"></i> Evidence requires <strong>Incident</strong></span>
+            <span><i class="bi bi-info-circle"></i> Report requires <strong>Incident + Officer</strong></span>
+        </div>
+    </div>
+</section>

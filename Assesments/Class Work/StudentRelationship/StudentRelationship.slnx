@@ -1,0 +1,6 @@
+<Solution>
+  <Project Path="../ConsoleApp1/ConsoleApp1.csproj" Id="3649eb26-dfcc-46bd-ac8d-5ab40e2e2551" />
+  <Project Path="../ConsoleAppForLambdaFunc/ConsoleAppForLambdaFunc.csproj" Id="5c7f0633-3ece-49c4-b3f6-a1321edac5ce" />
+  <Project Path="../FoodDelivery/FoodDelivery.csproj" Id="252be877-d13b-4def-94ba-a83d0246fb6c" />
+  <Project Path="StudentRelationship/StudentRelationship.csproj" />
+</Solution>

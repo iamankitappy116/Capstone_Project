@@ -1,0 +1,64 @@
+@model FoodDeliveryApp.Models.Party
+
+@{
+    ViewData["Title"] = "Party Signup";
+}
+
+<div class="container mt-4">
+    <h1>Party Signup</h1>
+    <hr />
+
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group mb-3">
+                <label for="partySelect" class="control-label">Select a Party:</label>
+                <select id="partySelect" class="form-control" asp-items="ViewBag.PartyList">
+                    <option value="">-- Choose a Party --</option>
+                </select>
+            </div>
+
+            <div id="signupSection" style="display:none;" class="mt-4">
+                <h4>Internal Party Detected!</h4>
+                <p>As this is an internal event, you are eligible to sign up directly.</p>
+                <button>Signup Now</button>
+            </div>
+
+            <div id="externalNotice" style="display:none;" class="mt-4">
+                <h4>External Party</h4>
+                <p>Signups for external parties are handled through a separate portal.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script>
+        $(document).ready(function () {
+            $('#partySelect').on('change', function () {
+                var selectedId = $(this).val();
+                
+                // Hide both sections initially
+                $('#signupSection').hide();
+                $('#externalNotice').hide();
+
+                if (selectedId) {
+                    $.ajax({
+                        url: '@Url.Action("AllowSignUp", "Parties")',
+                        type: 'GET',
+                        data: { partyId: selectedId },
+                        success: function (response) {
+                            if (response.status === "internal") {
+                                $('#signupSection').fadeIn();
+                            } else if (response.status === "external") {
+                                $('#externalNotice').fadeIn();
+                            }
+                        },
+                        error: function () {
+                            alert("Checking party status failed.");
+                        }
+                    });
+                }
+            });
+        });
+    </script>
+}

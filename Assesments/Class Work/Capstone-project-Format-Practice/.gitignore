@@ -1,0 +1,52 @@
+# === Build folders ===
+bin/
+obj/
+out/
+
+# === User-specific files ===
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# === VS Code ===
+.vscode/
+
+# === Visual Studio ===
+.vs/
+
+# === Rider ===
+.idea/
+
+# === Logs ===
+*.log
+
+# === OS generated ===
+.DS_Store
+Thumbs.db
+
+# === EF Core ===
+Migrations/
+
+# === Secrets ===
+appsettings.Development.json
+appsettings.Local.json
+secrets.json
+
+# === Publish output ===
+publish/
+
+# === Node (if you add client apps later) ===
+node_modules/
+
+# === NuGet ===
+*.nupkg
+packages/
+
+# === Coverage / test ===
+coverage/
+TestResults/
+
+# === Runtime files ===
+*.db
+*.sqlite

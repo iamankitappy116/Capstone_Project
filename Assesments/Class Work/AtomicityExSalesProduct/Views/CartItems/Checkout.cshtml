@@ -1,0 +1,37 @@
+@model AtomicityExSalesProduct.Models.CartItem
+
+@{
+    ViewData["Title"] = "Checkout";
+}
+
+<h2>Checkout</h2>
+
+<h3>Confirm Order — Atomic Transaction</h3>
+<p>
+    This will <strong>delete</strong> the cart item and <strong>insert</strong> an order record in one transaction.
+    If either step fails, both are rolled back.
+</p>
+
+<div>
+    <h4>CartItem</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">Product</dt>
+        <dd class="col-sm-10">@Model.Product.Name</dd>
+
+        <dt class="col-sm-2">Price</dt>
+        <dd class="col-sm-10">@Model.Product.Price</dd>
+
+        <dt class="col-sm-2">Quantity</dt>
+        <dd class="col-sm-10">@Model.Quantity</dd>
+
+        <dt class="col-sm-2">User</dt>
+        <dd class="col-sm-10">@Model.AppUser.Name</dd>
+    </dl>
+
+    <form asp-action="Checkout">
+        <input type="hidden" asp-for="Id" />
+        <input type="submit" value="Confirm Checkout" class="link-style" />
+        <a asp-action="Index">Back to List</a>
+    </form>
+</div>

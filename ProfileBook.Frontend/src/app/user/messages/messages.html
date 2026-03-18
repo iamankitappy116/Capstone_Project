@@ -1,0 +1,71 @@
+<div class="messages-container">
+    <div class="inbox-sidebar">
+        <div class="inbox-header">
+            <h2>Messages</h2>
+        </div>
+        <div class="conversation-list">
+            <div *ngIf="inbox.length === 0" class="empty-inbox">
+                No messages yet.
+            </div>
+            <div *ngFor="let contact of inbox" 
+                 class="conversation-item" 
+                 [class.active]="selectedContact?.contactId === contact.contactId"
+                 (click)="selectContact(contact)">
+                <div class="contact-avatar">
+                    <img [src]="getProfileImage(contact.contactProfileImage, contact.contactName)" alt="Contact">
+                    <div class="active-status"></div>
+                </div>
+                <div class="conversation-info">
+                    <div class="contact-name-row">
+                        <h3>{{ contact.contactName }}</h3>
+                        <span class="message-time">{{ formatTime(contact.lastMessageTime) }}</span>
+                    </div>
+                    <div class="last-message-row">
+                        <p class="last-message-text">{{ contact.lastMessage }}</p>
+                        <span *ngIf="contact.unreadCount > 0" class="unread-badge">{{ contact.unreadCount }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="chat-window">
+        <div *ngIf="!selectedContact" class="no-chat-selected">
+            <div class="no-chat-icon">
+                <i class="fa-regular fa-comment-dots" style="font-size: 64px; color: #9ca3af;"></i>
+            </div>
+            <h3>Your Messages</h3>
+            <p>Select a conversation or start a new one to begin messaging.</p>
+        </div>
+
+        <ng-container *ngIf="selectedContact">
+            <div class="chat-header">
+                <div class="chat-contact-info">
+                    <img [src]="getProfileImage(selectedContact.contactProfileImage, selectedContact.contactName)" alt="Contact">
+                    <div>
+                        <h3>{{ selectedContact.contactName }}</h3>
+                        <span class="active-now-text">Active now</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-body">
+                <div *ngFor="let msg of messages" class="message-row" [class.sent]="msg.senderId === currentUserId">
+                    <div class="message-bubble">
+                        <p>{{ msg.messageContent }}</p>
+                        <span class="message-timestamp">{{ formatTime(msg.timeStamp) }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="chat-footer">
+                <div class="message-input-wrapper">
+                    <input type="text" [(ngModel)]="newMessageContent" (keyup.enter)="sendMessage()" placeholder="Type a message...">
+                    <button class="send-btn" (click)="sendMessage()" [disabled]="!newMessageContent.trim()">
+                        <i class="fa-solid fa-paper-plane"></i>
+                    </button>
+                </div>
+            </div>
+        </ng-container>
+    </div>
+</div>

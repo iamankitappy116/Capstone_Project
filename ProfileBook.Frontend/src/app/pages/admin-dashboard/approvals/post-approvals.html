@@ -1,0 +1,56 @@
+<div class="page-header">
+  <div class="title-section">
+    <h1>Post Approvals</h1>
+    <p>Review and approve posts before they go live</p>
+  </div>
+</div>
+
+<div class="card table-card">
+  <div class="table-responsive">
+    <table>
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Post Content</th>
+          <th>Submitted</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let post of pendingPosts">
+          <td style="width: 200px;">
+            <div class="user-info">
+              <img [src]="post.profileImage ? 'http://localhost:5134' + post.profileImage : 'https://ui-avatars.com/api/?name=' + post.userName + '&background=random'" class="avatar" alt="">
+              <span class="user-name">{{post.userName}}</span>
+            </div>
+          </td>
+          <td>
+            <div class="post-preview">
+              <p>{{post.content}}</p>
+              <img *ngIf="post.mediaUrl" [src]="'http://localhost:5134' + post.mediaUrl" class="post-media" alt="Post media">
+            </div>
+          </td>
+          <td style="width: 150px; color: #999; font-size: 0.9rem;">
+            {{post.createdAt | date:'shortTime'}} today
+          </td>
+          <td class="text-right" style="width: 220px;">
+            <div class="approval-actions">
+              <button (click)="approve(post.postId)" class="btn btn-approve">
+                <i class="fa-solid fa-circle-check" style="margin-right: 4px;"></i> Approve
+              </button>
+              <button (click)="reject(post.postId)" class="btn btn-reject">
+                <i class="fa-solid fa-circle-xmark" style="margin-right: 4px;"></i> Reject
+              </button>
+            </div>
+          </td>
+        </tr>
+        <tr *ngIf="pendingPosts.length === 0 && !loading">
+          <td colspan="4" class="empty-state">No pending posts to approve.</td>
+        </tr>
+        <tr *ngIf="loading">
+          <td colspan="4" class="empty-state">Loading posts...</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,102 @@
+<div class="feed-layout">
+
+    <div class="feed-main">
+
+
+        <div class="create-post-card">
+            <div class="create-post-header">
+                <div class="profile-pic">
+                    <img [src]="currentUserProfileImage ? 'http://localhost:5134' + currentUserProfileImage : 'https://ui-avatars.com/api/?name=' + currentUser + '&background=random'" alt="Profile">
+                </div>
+                <textarea [(ngModel)]="newPostContent" placeholder="What's on your mind?">
+        </textarea>
+            </div>
+            <div class="create-post-actions">
+                <input type="file" #fileInput (change)="onFileSelected($event)" accept="image/*,video/*" style="display: none">
+                <button class="action-btn" (click)="fileInput.click()">
+                <i class="fa-regular fa-image" style="font-size: 18px; color: #4b5563;"></i>
+                    Media
+                </button>
+                <button class="post-btn" (click)="createPost()" [disabled]="!newPostContent.trim() && !selectedFile">Post</button>
+            </div>
+
+            <!-- Media Preview Area -->
+            <div class="media-preview" *ngIf="mediaPreview">
+                <img *ngIf="selectedFileType === 'image'" [src]="mediaPreview" alt="Preview">
+                <video *ngIf="selectedFileType === 'video'" [src]="mediaPreview" controls></video>
+                <button class="remove-media" (click)="removeSelectedFile()">×</button>
+            </div>
+        </div>
+
+
+        <div class="post-card" *ngFor="let post of posts">
+            <div class="post-header">
+                <div class="profile-pic">
+                    <img [src]="post.profileImage ? 'http://localhost:5134' + post.profileImage : 'https://ui-avatars.com/api/?name=' + post.userName + '&background=random'" alt="User">
+                </div>
+                <div class="post-meta">
+                    <h3>{{ post.userName }}</h3>
+                    <span>{{ post.createdAt | date:'short' }}</span>
+                </div>
+                <div class="post-options">
+                    <i class="fa-solid fa-ellipsis"></i>
+                </div>
+            </div>
+            <div class="post-content">
+                <p>{{ post.content }}</p>
+                <div class="post-media" *ngIf="post.mediaUrl">
+                    <img *ngIf="post.mediaType === 'image'" [src]="'http://localhost:5134' + post.mediaUrl" alt="Post Media">
+                    <video *ngIf="post.mediaType === 'video'" [src]="'http://localhost:5134' + post.mediaUrl" controls></video>
+                </div>
+            </div>
+
+            <div class="post-footer">
+                <div class="post-actions">
+                    <button class="action-btn" [class.active]="post.isLiked" (click)="toggleLike(post)">
+                        <i [class]="post.isLiked ? 'fa-solid fa-heart' : 'fa-regular fa-heart'" style="font-size: 18px; margin-right: 6px;"></i>
+                        <span>{{ post.likeCount || 0 }} Likes</span>
+                    </button>
+                    <button class="action-btn" (click)="toggleComments(post)">
+                        <i class="fa-regular fa-comment" style="font-size: 18px; margin-right: 6px;"></i>
+                        <span>{{ post.commentCount || 0 }} Comments</span>
+                    </button>
+                </div>
+
+                <div class="comments-section" *ngIf="post.showComments">
+                    <div class="comment-list">
+                        <div class="comment" *ngFor="let comment of post.comments">
+                            <div class="comment-profile-pic">
+                                <img [src]="comment.profileImage ? 'http://localhost:5134' + comment.profileImage : 'https://ui-avatars.com/api/?name=' + comment.userName + '&background=random'" alt="User">
+                            </div>
+                            <div class="comment-body">
+                                <strong>{{ comment.userName }}</strong>
+                                <p>{{ comment.commentText }}</p>
+                                <span class="comment-date">{{ comment.createdAt | date:'short' }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="comment-input">
+                        <input type="text" [(ngModel)]="post.newCommentText" placeholder="Write a comment..." (keyup.enter)="addComment(post, post.newCommentText)">
+                        <button (click)="addComment(post, post.newCommentText)" [disabled]="!post.newCommentText?.trim()">Send</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div *ngIf="posts.length === 0" style="text-align: center; color: #6b7280; margin-top: 40px;">
+            No posts yet. Be the first to share!
+        </div>
+
+    </div>
+
+    <div class="feed-sidebar">
+        <div class="suggestions-card">
+            <h3>Suggested Users</h3>
+        </div>
+
+        <div class="trending-card">
+            <h3>Trending Posts</h3>
+        </div>
+    </div>
+
+</div>
