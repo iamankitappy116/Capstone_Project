@@ -1,6 +1,7 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { UserService } from '../../core/services/user';
 import { Router } from '@angular/router';
+import { HostListener } from '@angular/core';
 
 @Component({
   selector: 'app-navbar',
@@ -67,4 +68,30 @@ export class Navbar implements OnInit {
     const name = this.userProfile?.username || 'User';
     return `https://ui-avatars.com/api/?name=${name}&background=random`;
   }
+
+  showDropdown: boolean = false;
+
+  toggleDropdown(): void {
+    this.showDropdown = !this.showDropdown;
+  }
+
+  viewProfile(): void {
+    this.router.navigate(['/dashboard/profile']);
+    this.showDropdown = false;
+  }
+
+  logout(): void {
+    this.userService.logout();
+    this.router.navigate(['/login']);
+    this.showDropdown = false;
+  }
+
+  @HostListener('document:click', ['$event'])
+  onClickOutside(event: Event) {
+    const target = event.target as HTMLElement;
+
+  if (!target.closest('.profile-container')) {
+    this.showDropdown = false;
+  }
+}
 }

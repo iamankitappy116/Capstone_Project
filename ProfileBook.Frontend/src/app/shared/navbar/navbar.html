@@ -25,12 +25,29 @@
   </div>
 
   <div class="nav-actions">
-    <div class="notification-icon">
-      <i class="fa-solid fa-bell"></i>
-      <span class="badge">3</span>
-    </div>
+  <div class="notification-icon">
+    <i class="fa-solid fa-bell"></i>
+    <span class="badge">3</span>
+  </div>
+
+  <div class="profile-container" (click)="$event.stopPropagation()">
     <div class="profile-pic">
-      <img [src]="getProfileImage()" alt="Profile">
+      <img [src]="getProfileImage()" alt="Profile" (click)="toggleDropdown()">
+    </div>
+    <div class="profile-dropdown" *ngIf="showDropdown">
+      <div class="dropdown-item" (click)="viewProfile()">
+        <i class="fa-solid fa-user"></i>
+        <span>View Profile</span>
+      </div>
+      <div class="dropdown-item" (click)="logout()">
+        <i class="fa-solid fa-right-from-bracket"></i>
+        <span>Logout</span>
+      </div>
     </div>
   </div>
+  <div class="dropdown-header">
+    <strong>{{userProfile?.username}}</strong>
+    <small>{{userProfile?.email}}</small>
+  </div>
+</div>
 </nav>
