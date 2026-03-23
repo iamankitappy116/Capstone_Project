@@ -1,6 +1,7 @@
 <div class="login-page-wrapper">
   <div class="split-container">
-    <!-- Left Side: Simple Branding -->
+
+    <!-- Left Side -->
     <div class="brand-side">
       <div class="brand-content">
         <div class="logo-circle">
@@ -11,38 +12,70 @@
       </div>
     </div>
 
-    <!-- Right Side: Login Form -->
+    <!-- Right Side -->
     <div class="form-side">
       <div class="auth-card">
         <h2>Welcome Back</h2>
         <p class="subtitle">Please enter your details to sign in</p>
-        
+
+        <!-- Global Error -->
         <div *ngIf="errorMessage" class="error-alert">
           <i class="fa-solid fa-triangle-exclamation" style="margin-right: 8px;"></i>
           {{ errorMessage }}
         </div>
 
-        <form (ngSubmit)="onSubmit()" #loginForm="ngForm">
+        <!--FORM-->
+        <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+          <!-- USERNAME -->
           <div class="form-group">
             <label for="username">Username</label>
-            <input type="text" id="username" name="username" [(ngModel)]="loginData.username"
-              placeholder="Enter your username" required
-              [class.input-error]="formSubmitted && !loginData.username.trim()">
+            <input type="text" id="username" formControlName="username" placeholder="Enter your username" appAutoFocus
+              (keydown.enter)="goToPassword($event, passwordInput)"
+              [class.input-error]="f['username'].invalid && (f['username'].touched || formSubmitted)">
+
+            <!-- Username Error -->
+            <div *ngIf="f['username'].invalid && (f['username'].touched || formSubmitted)">
+              <span style="color: red;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Username is required
+              </span>
+            </div>
           </div>
-          
+
+          <!-- PASSWORD -->
           <div class="form-group">
             <label for="password">Password</label>
-            <input type="password" id="password" name="password" [(ngModel)]="loginData.password"
-              placeholder="••••••••" required
-              [class.input-error]="formSubmitted && !loginData.password.trim()">
+            <input type="password" id="password" formControlName="password" #passwordInput placeholder="••••••••"
+              [class.input-error]="f['password'].invalid && (f['password'].touched || formSubmitted)">
+
+            <!-- Password Errors -->
+            <div *ngIf="f['password'].invalid && (f['password'].touched || formSubmitted)">
+
+              <span *ngIf="f['password'].errors?.['required']" style="color: red;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Password is required
+              </span>
+
+              <span *ngIf="f['password'].errors?.['minlength']" style="color: red;">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+                Password must be at least 6 characters long
+              </span>
+
+            </div>
           </div>
-          
-          <button type="submit" class="btn-primary" [disabled]="isLoading">
+
+          <!-- BUTTON -->
+          <button type="submit" class="btn-primary" [disabled]="isLoading || loginForm.invalid">
             <span *ngIf="!isLoading">Sign In</span>
-            <span *ngIf="isLoading"><i class="fa-solid fa-spinner fa-spin"></i> Processing...</span>
+            <span *ngIf="isLoading">
+              <i class="fa-solid fa-spinner fa-spin"></i> Processing...
+            </span>
           </button>
+
         </form>
-        
+
+        <!-- Footer -->
         <div class="auth-footer">
           <p>New here? <a routerLink="/register">Create an account</a></p>
         </div>
@@ -50,7 +83,7 @@
     </div>
   </div>
 
-  <!-- Exclusive Footer -->
+  <!-- Footer -->
   <footer class="login-footer">
     <div class="footer-links">
       <a href="#">About</a>

@@ -1,6 +1,10 @@
 import { FormsModule } from '@angular/forms';
 import { provideHttpClient, withInterceptors } from '@angular/common/http';
-import { NgModule, provideBrowserGlobalErrorListeners, provideZoneChangeDetection } from '@angular/core';
+import {
+  NgModule,
+  provideBrowserGlobalErrorListeners,
+  provideZoneChangeDetection,
+} from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing-module';
 import { App } from './app';
@@ -19,7 +23,8 @@ import { UserManagementComponent } from './pages/admin-dashboard/users/user-mana
 import { PostApprovalsComponent } from './pages/admin-dashboard/approvals/post-approvals';
 import { ReportedUsersComponent } from './pages/admin-dashboard/reports/reported-users';
 import { GroupManagementComponent } from './pages/admin-dashboard/groups/group-management';
-
+import { AutoFocus } from './directives/auto-focus';
+import { ReactiveFormsModule } from '@angular/forms';
 @NgModule({
   declarations: [
     App,
@@ -37,14 +42,15 @@ import { GroupManagementComponent } from './pages/admin-dashboard/groups/group-m
     Feed,
     Profile,
     Messages,
-    Groups
+    Groups,
+    AutoFocus,
   ],
-  imports: [BrowserModule, AppRoutingModule, FormsModule],
+  imports: [BrowserModule, AppRoutingModule, FormsModule, ReactiveFormsModule],
   providers: [
     provideBrowserGlobalErrorListeners(),
     provideHttpClient(),
-    provideZoneChangeDetection({ eventCoalescing: true })
+    provideZoneChangeDetection({ eventCoalescing: true }),
   ],
   bootstrap: [App],
 })
-export class AppModule { }
+export class AppModule {}
