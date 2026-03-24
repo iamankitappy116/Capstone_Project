@@ -13,15 +13,15 @@ export class Sidebar implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    const role = localStorage.getItem('role');
+    const role = sessionStorage.getItem('role');
     this.isAdmin = role === 'Admin';
   }
 
   logout() {
-    localStorage.removeItem('token');
-    localStorage.removeItem('username');
-    localStorage.removeItem('userId');
-    localStorage.removeItem('role');
+    sessionStorage.removeItem('token');
+    sessionStorage.removeItem('username');
+    sessionStorage.removeItem('userId');
+    sessionStorage.removeItem('role');
     this.router.navigate(['/login']);
   }
 }

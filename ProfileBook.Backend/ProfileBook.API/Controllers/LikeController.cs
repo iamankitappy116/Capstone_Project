@@ -30,7 +30,7 @@ namespace ProfileBook.API.Controllers
         }
 
         [HttpDelete]
-        public async Task<IActionResult> RemoveLike(int userId, int postId)
+        public async Task<IActionResult> RemoveLike([FromQuery] int userId, [FromQuery] int postId)
         {
             var removed = await _likeService.RemoveLike(userId, postId);
 
@@ -46,6 +46,13 @@ namespace ProfileBook.API.Controllers
             var count = await _likeService.GetLikesCount(postId);
 
             return Ok(new { likes = count });
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> IsLiked([FromQuery] int userId, [FromQuery] int postId)
+        {
+            var liked = await _likeService.IsPostLikedByUser(userId, postId);
+            return Ok(new { isLiked = liked });
         }
     }
 }

@@ -21,7 +21,7 @@ export class Groups implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    const userIdStr = localStorage.getItem('userId');
+    const userIdStr = sessionStorage.getItem('userId');
     if (userIdStr) {
       this.currentUserId = parseInt(userIdStr);
       this.loadGroups();

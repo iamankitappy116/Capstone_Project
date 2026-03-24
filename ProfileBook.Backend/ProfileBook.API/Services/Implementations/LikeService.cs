@@ -59,5 +59,11 @@ namespace ProfileBook.API.Services.Implementations
             return await _context.Likes
                 .CountAsync(l => l.PostId == postId);
         }
+
+        public async Task<bool> IsPostLikedByUser(int userId, int postId)
+        {
+            return await _context.Likes
+                .AnyAsync(l => l.UserId == userId && l.PostId == postId);
+        }
     }
 }

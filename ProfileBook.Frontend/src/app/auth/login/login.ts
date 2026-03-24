@@ -50,6 +50,11 @@ export class Login {
     this.auth.login(this.loginForm.value).subscribe({
       next: (res: any) => {
         this.isLoading = false;
+        // localStorage.setItem('token', res.token);
+        // localStorage.setItem('role', res.role);
+        // localStorage.setItem('userId', res.userId);
+        // localStorage.setItem('username', res.username);
+
         const role = res.role || localStorage.getItem('role');
         if (role === 'Admin') {
           this.router.navigate(['/admin-dashboard']);

@@ -13,11 +13,11 @@ export class AdminLayoutComponent implements OnInit {
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('username');
+    this.username = sessionStorage.getItem('username');
   }
 
   logout(): void {
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 }

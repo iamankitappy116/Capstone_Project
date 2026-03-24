@@ -26,7 +26,7 @@ export class Messages implements OnInit, OnDestroy {
   ) {}
 
   ngOnInit(): void {
-    const userIdStr = localStorage.getItem('userId');
+    const userIdStr = sessionStorage.getItem('userId');
     if (userIdStr) {
       this.currentUserId = parseInt(userIdStr);
       this.loadInbox(() => {

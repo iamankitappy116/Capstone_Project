@@ -11,7 +11,7 @@ export class PostService {
   constructor(private http: HttpClient) { }
 
   private getHeaders(): HttpHeaders {
-    const token = localStorage.getItem('token');
+    const token = sessionStorage.getItem('token');
     return new HttpHeaders({
       'Authorization': `Bearer ${token}`
     });
@@ -22,7 +22,7 @@ export class PostService {
   }
 
   createPost(content: string, mediaUrl?: string, mediaType?: string): Observable<any> {
-    const userId = Number(localStorage.getItem('userId')) || 0;
+    const userId = Number(sessionStorage.getItem('userId')) || 0;
     const payload = {
       content: content,
       userId: userId,
@@ -43,13 +43,18 @@ export class PostService {
   }
 
   likePost(postId: number): Observable<any> {
-    const userId = Number(localStorage.getItem('userId')) || 0;
+    const userId = Number(sessionStorage.getItem('userId')) || 0;
     return this.http.post<any>(`http://localhost:5134/api/like`, { userId, postId }, { headers: this.getHeaders() });
   }
 
   removeLike(postId: number): Observable<any> {
-    const userId = Number(localStorage.getItem('userId')) || 0;
+    const userId = Number(sessionStorage.getItem('userId')) || 0;
     return this.http.delete<any>(`http://localhost:5134/api/like?userId=${userId}&postId=${postId}`, { headers: this.getHeaders() });
+  }
+
+  isLiked(postId: number): Observable<{ isLiked: boolean }> {
+    const userId = Number(sessionStorage.getItem('userId')) || 0;
+    return this.http.get<{ isLiked: boolean }>(`http://localhost:5134/api/like?userId=${userId}&postId=${postId}`, { headers: this.getHeaders() });
   }
 
   getComments(postId: number): Observable<any[]> {
@@ -57,7 +62,7 @@ export class PostService {
   }
 
   addComment(postId: number, commentContent: string): Observable<any> {
-    const userId = Number(localStorage.getItem('userId')) || 0;
+    const userId = Number(sessionStorage.getItem('userId')) || 0;
     return this.http.post<any>(`http://localhost:5134/api/comment`, { userId, postId, commentText: commentContent }, { headers: this.getHeaders() });
   }
 }

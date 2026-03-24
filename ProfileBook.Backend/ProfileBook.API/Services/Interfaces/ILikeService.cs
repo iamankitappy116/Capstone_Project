@@ -1,4 +1,4 @@
-﻿using ProfileBook.API.DTOs.Like;
+using ProfileBook.API.DTOs.Like;
 
 namespace ProfileBook.API.Services.Interfaces
 {
@@ -9,5 +9,7 @@ namespace ProfileBook.API.Services.Interfaces
         Task<bool> RemoveLike(int userId, int postId);
 
         Task<int> GetLikesCount(int postId);
+
+        Task<bool> IsPostLikedByUser(int userId, int postId);
     }
 }

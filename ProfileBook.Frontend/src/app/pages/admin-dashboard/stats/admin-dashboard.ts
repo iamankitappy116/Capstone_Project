@@ -24,7 +24,7 @@ export class AdminDashboardComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    this.username = localStorage.getItem('username');
+    this.username = sessionStorage.getItem('username');
     this.loadStats();
   }
 
@@ -54,7 +54,7 @@ export class AdminDashboardComponent implements OnInit {
   }
 
   logout(): void {
-    localStorage.clear();
+    sessionStorage.clear();
     this.router.navigate(['/login']);
   }
 }

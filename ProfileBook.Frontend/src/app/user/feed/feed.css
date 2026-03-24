@@ -321,3 +321,83 @@ textarea {
         margin-bottom: 8px;
     }
 }
+
+/* Sidebar Styling */
+.suggestion-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 16px;
+}
+
+.suggestion-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.suggestion-info {
+    flex: 1;
+}
+
+.suggestion-name {
+    display: block;
+    font-size: 14px;
+    font-weight: 600;
+    color: #111827;
+}
+
+.suggestion-handle {
+    display: block;
+    font-size: 12px;
+    color: #6b7280;
+}
+
+.follow-btn {
+    background: white;
+    border: 1px solid #d1d5db;
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.follow-btn:hover {
+    background: #f9fafb;
+}
+
+.follow-btn.following {
+    background: #f3f4f6;
+    color: #4b5563;
+}
+
+.no-suggestions {
+    font-size: 14px;
+    color: #6b7280;
+    text-align: center;
+    padding: 10px 0;
+}
+
+.trending-item {
+    margin-bottom: 16px;
+}
+
+.trend-tag {
+    display: block;
+    font-size: 14px;
+    font-weight: 700;
+    color: #111827;
+    cursor: pointer;
+}
+
+.trend-tag:hover {
+    text-decoration: underline;
+}
+
+.trend-count {
+    font-size: 12px;
+    color: #6b7280;
+}

@@ -12,10 +12,10 @@ export class Auth {
       return this.http.post<any>(`${this.apiUrl}/login`, loginData).pipe(
         tap((response: any) => {
           if(response && response.token){
-            localStorage.setItem('token', response.token);
-            localStorage.setItem('username', response.username);
-            localStorage.setItem('userId', response.userId);
-            localStorage.setItem('role', response.role);
+            sessionStorage.setItem('token', response.token);
+            sessionStorage.setItem('username', response.username);
+            sessionStorage.setItem('userId', response.userId);
+            sessionStorage.setItem('role', response.role);
           }  
         })
       );
@@ -29,6 +29,6 @@ export class Auth {
       return this.http.post<any>(`${this.apiUrl}/register`, payload);
     }
     isLoggedIn(): boolean {
-      return !!localStorage.getItem('token');
+      return !!sessionStorage.getItem('token');
     }
 }

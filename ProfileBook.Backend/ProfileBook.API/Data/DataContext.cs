@@ -15,6 +15,7 @@ public class DataContext : DbContext
   public DbSet<Comment> Comments => Set<Comment>();
   public DbSet<Like> Likes => Set<Like>();
   public DbSet<GroupMember> GroupMembers { get; set; }
+  public DbSet<UserFollow> UserFollows => Set<UserFollow>();
     protected override void OnModelCreating(ModelBuilder modelBuilder)
   {
     modelBuilder.Entity<Message>()
@@ -81,6 +82,18 @@ public class DataContext : DbContext
          .HasOne(gm => gm.Group)
          .WithMany(g => g.Members)
          .HasForeignKey(gm => gm.GroupId);
+
+    modelBuilder.Entity<UserFollow>()
+        .HasOne(f => f.Follower)
+        .WithMany()
+        .HasForeignKey(f => f.FollowerId)
+        .OnDelete(DeleteBehavior.Restrict);
+
+    modelBuilder.Entity<UserFollow>()
+        .HasOne(f => f.Following)
+        .WithMany()
+        .HasForeignKey(f => f.FollowingId)
+        .OnDelete(DeleteBehavior.Restrict);
     }
 
 }

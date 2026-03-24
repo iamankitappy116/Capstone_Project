@@ -8,7 +8,7 @@ namespace ProfileBook.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize(Roles = "Admin")]
+    [Authorize]
     public class UserController : ControllerBase
     {
         private readonly IUserService _userService;
@@ -26,6 +26,7 @@ namespace ProfileBook.API.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateUser(UserCreateDto request)
         {
             var user = await _userService.CreateUser(request);
@@ -44,6 +45,7 @@ namespace ProfileBook.API.Controllers
         }
 
         [HttpPut("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> UpdateUser(int id, UserUpdateDto request)
         {
             var updatedUser = await _userService.UpdateUser(id, request);
@@ -55,6 +57,7 @@ namespace ProfileBook.API.Controllers
         }
 
         [HttpDelete("{id}")]
+        [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(int id)
         {
             var result = await _userService.DeleteUser(id);

@@ -92,10 +92,29 @@
     <div class="feed-sidebar">
         <div class="suggestions-card">
             <h3>Suggested Users</h3>
+            <div class="suggestion-item" *ngFor="let user of suggestedUsers">
+                <img class="suggestion-avatar"
+                    [src]="user.profileImage ? 'http://localhost:5134' + user.profileImage : 'https://ui-avatars.com/api/?name=' + user.username + '&background=random'"
+                    alt="User Avatar">
+                <div class="suggestion-info">
+                    <span class="suggestion-name">{{ user.username }}</span>
+                    <span class="suggestion-handle">@{{ user.username | lowercase }}</span>
+                </div>
+                <button class="follow-btn" [class.following]="user.isFollowing" (click)="toggleFollow(user)">
+                    {{ user.isFollowing ? 'Following' : 'Follow' }}
+                </button>
+            </div>
+            <div *ngIf="suggestedUsers.length === 0" class="no-suggestions">
+                No suggestions available.
+            </div>
         </div>
 
         <div class="trending-card">
             <h3>Trending Posts</h3>
+            <div class="trending-item" *ngFor="let trend of trendingPosts">
+                <span class="trend-tag">{{ trend.tag }}</span>
+                <span class="trend-count">{{ trend.count }}</span>
+            </div>
         </div>
     </div>
 

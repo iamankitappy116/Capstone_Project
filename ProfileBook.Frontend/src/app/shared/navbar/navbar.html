@@ -25,9 +25,26 @@
   </div>
 
   <div class="nav-actions">
-  <div class="notification-icon">
-    <i class="fa-solid fa-bell"></i>
-    <span class="badge">3</span>
+  <div class="notification-icon" (click)="toggleNotifications(); $event.stopPropagation()">
+    <i class="fa-regular fa-bell"></i>
+    <span *ngIf="notificationCount > 0" class="badge">{{notificationCount}}</span>
+
+    <!-- Notification Dropdown -->
+    <div class="notification-dropdown" *ngIf="showNotifications">
+      <div class="dropdown-header">
+        <span>Notifications</span>
+        <button class="clear-btn" (click)="clearNotifications(); $event.stopPropagation()" *ngIf="notifications.length > 0">Clear All</button>
+      </div>
+      <div class="notification-list">
+        <div class="notification-item" *ngFor="let note of notifications">
+          <i class="fa-solid fa-circle-check" style="color: #22c55e;"></i>
+          <span>{{note}}</span>
+        </div>
+        <div class="no-notifications" *ngIf="notifications.length === 0">
+          <p>No new notifications</p>
+        </div>
+      </div>
+    </div>
   </div>
 
   <div class="profile-container" (click)="$event.stopPropagation()">

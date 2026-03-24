@@ -1,28 +1,41 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, ViewEncapsulation } from '@angular/core';
 import { UserService } from '../../core/services/user';
 import { Router } from '@angular/router';
 import { HostListener } from '@angular/core';
+import { SignalRService } from '../../core/services/signalr';
 
 @Component({
   selector: 'app-navbar',
   standalone: false,
   templateUrl: './navbar.html',
   styleUrl: './navbar.css',
+  encapsulation: ViewEncapsulation.Emulated
 })
 export class Navbar implements OnInit {
   userProfile: any = null;
   searchQuery: string = '';
   users: any[] = [];
   filteredUsers: any[] = [];
+  notificationCount: number = 0;
+  notifications: string[] = [];
+  showNotifications: boolean = false;
 
   constructor(
+    private signalRService: SignalRService,
     private userService: UserService, 
     private cdr: ChangeDetectorRef,
     private router: Router
   ) {}
 
-  ngOnInit(): void {
+  ngOnInit(){
     this.loadUserProfile();
+    this.signalRService.startConnection();
+    this.signalRService.notification$.subscribe(message => {
+      this.notifications.unshift(message); // Add to the top
+      this.notificationCount++;
+      console.log('New notification received:', message);
+      this.cdr.detectChanges();
+    });
   }
 
   loadUserProfile(): void {
@@ -90,8 +103,24 @@ export class Navbar implements OnInit {
   onClickOutside(event: Event) {
     const target = event.target as HTMLElement;
 
-  if (!target.closest('.profile-container')) {
-    this.showDropdown = false;
+    if (!target.closest('.profile-container')) {
+      this.showDropdown = false;
+    }
+
+    if (!target.closest('.notification-icon')) {
+      this.showNotifications = false;
+    }
   }
-}
+
+  toggleNotifications(): void {
+    this.showNotifications = !this.showNotifications;
+    if (this.showNotifications) {
+      this.notificationCount = 0; // Reset count when viewed
+    }
+  }
+
+  clearNotifications(): void {
+    this.notifications = [];
+    this.showNotifications = false;
+  }
 }

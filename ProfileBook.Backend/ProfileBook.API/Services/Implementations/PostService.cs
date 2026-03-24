@@ -3,16 +3,19 @@ using ProfileBook.API.Data;
 using ProfileBook.API.DTOs.Post;
 using ProfileBook.API.Models;
 using ProfileBook.API.Services.Interfaces;
+using Microsoft.AspNetCore.SignalR;
+using ProfileBook.API.Hubs;
 
 namespace ProfileBook.API.Services.Implementations
 {
     public class PostService : IPostService
     {
         private readonly DataContext _context;
-
-        public PostService(DataContext context)
+        private readonly IHubContext<NotificationHub> _hubContext;
+        public PostService(DataContext context, IHubContext<NotificationHub> hubContext)
         {
             _context = context;
+            _hubContext = hubContext;
         }
 
         public async Task<PostResponseDto> CreatePost(PostCreateDto request)
@@ -118,7 +121,7 @@ namespace ProfileBook.API.Services.Implementations
                 throw new Exception("Post not found");
 
             post.Status = "Approved";
-
+            await _hubContext.Clients.User(post.UserId.ToString()).SendAsync("ReceivedNotification", "Your post has been approved!");
             await _context.SaveChangesAsync();
 
             return new PostApprovalDto
