@@ -35,7 +35,10 @@ public class AuthController : ControllerBase
     try
     {
       if (await _context.Users.AnyAsync(u => u.Username == request.Username))
-        return BadRequest("User already exists.");
+        return BadRequest("Username already exists.");
+
+      if (await _context.Users.AnyAsync(u => u.Email == request.Email))
+        return BadRequest("Email already registered.");
 
        CreatePasswordHash(request.Password, out byte[] hash, out byte[] salt);
 

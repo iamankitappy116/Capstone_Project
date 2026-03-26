@@ -33,11 +33,10 @@ export class Navbar implements OnInit {
     this.signalRService.notification$.subscribe(message => {
       this.notifications.unshift(message); // Add to the top
       this.notificationCount++;
-      console.log('New notification received:', message);
       this.cdr.detectChanges();
     });
   }
-
+   
   loadUserProfile(): void {
     this.userService.getMyProfile().subscribe({
       next: (data) => {

@@ -11,5 +11,7 @@ namespace ProfileBook.API.DTOs.User
         public string? Bio { get; set; }
 
         public string? Location { get; set; }
+ 
+        public string? Role { get; set; }
     }
 }

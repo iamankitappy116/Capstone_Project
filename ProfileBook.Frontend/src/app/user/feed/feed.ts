@@ -1,7 +1,8 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, HostListener } from '@angular/core';
 import { PostService } from '../../core/services/post';
 import { UserService } from '../../core/services/user';
 import { FollowService } from '../../core/services/follow';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { forkJoin, of } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 @Component({
@@ -30,10 +31,18 @@ export class Feed implements OnInit {
     { tag: '#CSharp', count: '900 posts' },
   ];
   
+  // Report User
+  showOptionsMenu: number | null = null;  // postId of open menu
+  showReportModal: boolean = false;
+  reportTarget: any = null;  // { userId, username }
+  reportReason: string = '';
+  reportReasons = ['Spam', 'Harassment', 'Inappropriate Content', 'Fake Account', 'Hate Speech', 'Other'];
+
   constructor(
     private postService: PostService, 
     private userService: UserService,
     private followService: FollowService,
+    private http: HttpClient,
     private cdr: ChangeDetectorRef
   ) { }
   ngOnInit() {
@@ -243,6 +252,53 @@ export class Feed implements OnInit {
       post.commentCount++;
       post.newCommentText = '';
       this.cdr.detectChanges();
+    });
+  }
+
+  //Three-dot menu & Report 
+  toggleOptionsMenu(postId: number, event: Event): void {
+    event.stopPropagation();
+    this.showOptionsMenu = this.showOptionsMenu === postId ? null : postId;
+  }
+
+  @HostListener('document:click')
+  closeOptionsMenu(): void {
+    this.showOptionsMenu = null;
+  }
+
+  openReportModal(post: any, event: Event): void {
+    event.stopPropagation();
+    this.reportTarget = { userId: post.userId, username: post.userName };
+    this.reportReason = '';
+    this.showReportModal = true;
+    this.showOptionsMenu = null;
+  }
+
+  closeReportModal(): void {
+    this.showReportModal = false;
+    this.reportTarget = null;
+    this.reportReason = '';
+  }
+
+  submitReport(): void {
+    if (!this.reportReason || !this.reportTarget) return;
+    const reportingUserId = Number(sessionStorage.getItem('userId')) || 0;
+    const token = sessionStorage.getItem('token');
+    const headers = new HttpHeaders({ 'Authorization': `Bearer ${token}`, 'Content-Type': 'application/json' });
+    const payload = {
+      reportingUserId,
+      reportedUserId: this.reportTarget.userId,
+      reason: this.reportReason
+    };
+    this.http.post('http://localhost:5134/api/report', payload, { headers }).subscribe({
+      next: () => {
+        alert(`Reported ${this.reportTarget.username} for "${this.reportReason}". Thank you!`);
+        this.closeReportModal();
+      },
+      error: (err) => {
+        alert('Failed to submit report. Please try again.');
+        console.error(err);
+      }
     });
   }
 }

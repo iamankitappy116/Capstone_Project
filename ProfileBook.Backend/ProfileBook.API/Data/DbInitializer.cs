@@ -24,6 +24,8 @@ public static class DbInitializer
         context.Reports.RemoveRange(context.Reports);
         context.Likes.RemoveRange(context.Likes);
         context.Comments.RemoveRange(context.Comments);
+        context.UserFollows.RemoveRange(context.UserFollows);
+        context.Messages.RemoveRange(context.Messages);
         context.GroupMembers.RemoveRange(context.GroupMembers);
         context.Posts.RemoveRange(context.Posts);
         context.Groups.RemoveRange(context.Groups);

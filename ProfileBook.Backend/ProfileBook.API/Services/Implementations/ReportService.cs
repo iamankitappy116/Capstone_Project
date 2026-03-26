@@ -52,7 +52,7 @@ namespace ProfileBook.API.Services.Implementations
                     ReportedUserName = r.ReportedUser != null ? r.ReportedUser.Username : "Unknown",
                     Reason = r.Reason,
                     TimeStamp = r.TimeStamp,
-                    Severity = r.Reason.ToLower().Contains("inappropriate") ? "High" : "Medium"
+                    Severity = r.Reason.ToLower().Contains("inappropriate") ? "High" : (r.Reason.ToLower().Contains("spam") ? "Low" : "Medium")
                 })
                 .ToListAsync();
         }
@@ -61,13 +61,18 @@ namespace ProfileBook.API.Services.Implementations
         {
             return await _context.Reports
                 .Where(r => r.ReportedUserId == userId)
+                .Include(r => r.ReportingUser)
+                .Include(r => r.ReportedUser)
                 .Select(r => new ReportResponseDto
                 {
                     ReportId = r.ReportId,
                     ReportingUserId = r.ReportingUserId,
+                    ReportingUserName = r.ReportingUser != null ? r.ReportingUser.Username : "Unknown",
                     ReportedUserId = r.ReportedUserId,
+                    ReportedUserName = r.ReportedUser != null ? r.ReportedUser.Username : "Unknown",
                     Reason = r.Reason,
-                    TimeStamp = r.TimeStamp
+                    TimeStamp = r.TimeStamp,
+                    Severity = r.Reason.ToLower().Contains("inappropriate") ? "High" : (r.Reason.ToLower().Contains("spam") ? "Low" : "Medium")
                 })
                 .ToListAsync();
         }

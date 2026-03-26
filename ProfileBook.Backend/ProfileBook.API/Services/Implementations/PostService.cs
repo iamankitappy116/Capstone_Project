@@ -38,6 +38,11 @@ namespace ProfileBook.API.Services.Implementations
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
 
+            // Notify admins of new pending post
+            var user = await _context.Users.FindAsync(request.UserId);
+            var username = user?.Username ?? "Unknown User";
+            await _hubContext.Clients.Group("Admins").SendAsync("ReceivedNotification", $"New post approval request from {username}");
+
             return new PostResponseDto
             {
                 PostId = post.PostId,
@@ -46,7 +51,7 @@ namespace ProfileBook.API.Services.Implementations
                 MediaType = post.MediaType,
                 Status = post.Status,
                 CreatedAt = post.CreatedAt,
-                // These might be null directly after create unless fetched, but that's okay for create response
+                UserId = post.UserId
             };
         }
 
@@ -65,6 +70,7 @@ namespace ProfileBook.API.Services.Implementations
                     CreatedAt = p.CreatedAt,
                     UserName = p.User.Username,
                     ProfileImage = p.User.ProfileImage,
+                    UserId = p.UserId,
                     LikeCount = p.Likes.Count(),
                     CommentCount = p.Comments.Count()
                 })
@@ -86,6 +92,7 @@ namespace ProfileBook.API.Services.Implementations
                     CreatedAt = p.CreatedAt,
                     UserName = p.User.Username,
                     ProfileImage = p.User.ProfileImage,
+                    UserId = p.UserId,
                     LikeCount = p.Likes.Count(),
                     CommentCount = p.Comments.Count()
                 })
@@ -107,6 +114,7 @@ namespace ProfileBook.API.Services.Implementations
                     CreatedAt = p.CreatedAt,
                     UserName = p.User.Username,
                     ProfileImage = p.User.ProfileImage,
+                    UserId = p.UserId,
                     LikeCount = p.Likes.Count(),
                     CommentCount = p.Comments.Count()
                 })

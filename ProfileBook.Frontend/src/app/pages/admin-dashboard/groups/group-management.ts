@@ -26,10 +26,14 @@ export class GroupManagementComponent implements OnInit {
     memberIds: []
   };
 
+  showAddMemberModal: boolean = false;
+  selectedGroupForMember: any = null;
+  searchUserForGroup: string = '';
+  
   constructor(private dashboardService: DashboardService) {}
 
   ngOnInit(): void {
-    const userId = localStorage.getItem('userId');
+    const userId = sessionStorage.getItem('userId'); // Fixed: was localStorage
     this.newGroup.createdByUserId = userId ? parseInt(userId) : 0;
     this.loadGroups();
     this.loadUsers();
@@ -99,5 +103,38 @@ export class GroupManagementComponent implements OnInit {
       g.groupName.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
       g.category.toLowerCase().includes(this.searchQuery.toLowerCase())
     );
+  }
+
+  openAddMemberModal(group: any): void {
+    this.selectedGroupForMember = group;
+    this.showAddMemberModal = true;
+    this.searchUserForGroup = '';
+  }
+
+  closeAddMemberModal(): void {
+    this.showAddMemberModal = false;
+    this.selectedGroupForMember = null;
+  }
+
+  get filteredUsersForGroup() {
+    return this.users.filter(u =>
+      u.username.toLowerCase().includes(this.searchUserForGroup.toLowerCase())
+    );
+  }
+
+  addUserToExistingGroup(userId: number): void {
+    if (!this.selectedGroupForMember) return;
+    const payload = {
+      groupId: this.selectedGroupForMember.groupId,
+      userId: userId
+    };
+    this.dashboardService.addUserToGroup(payload).subscribe({
+      next: () => {
+        alert('User added successfully!');
+        this.loadGroups();
+        this.closeAddMemberModal();
+      },
+      error: (err: any) => alert('Error adding user: ' + (err.error || err.message))
+    });
   }
 }

@@ -9,6 +9,7 @@ namespace ProfileBook.API.DTOs.Post
         public string Status { get; set; }
         public string? UserName { get; set; }
         public string? ProfileImage { get; set; }
+        public int UserId { get; set; }
         public DateTime CreatedAt { get; set; }
         public int LikeCount { get; set; }
         public int CommentCount { get; set; }

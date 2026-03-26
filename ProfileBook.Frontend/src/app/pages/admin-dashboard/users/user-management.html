@@ -55,11 +55,11 @@
   </div>
 </div>
 
-<!-- Create User Modal -->
+<!-- Create/Edit User Modal -->
 <div class="modal-overlay" *ngIf="showModal">
   <div class="modal-card">
     <div class="modal-header">
-      <h3>Add New User</h3>
+      <h3>{{ isEditMode ? 'Edit User' : 'Add New User' }}</h3>
       <button class="close-btn" (click)="closeModal()">&times;</button>
     </div>
     <div class="modal-body">
@@ -71,7 +71,7 @@
         <label>Email</label>
         <input type="email" [(ngModel)]="newUser.email" placeholder="Enter email">
       </div>
-      <div class="form-group">
+      <div class="form-group" *ngIf="!isEditMode">
         <label>Password</label>
         <input type="password" [(ngModel)]="newUser.password" placeholder="Enter password">
       </div>
@@ -85,7 +85,7 @@
     </div>
     <div class="modal-footer">
       <button class="btn btn-secondary" (click)="closeModal()">Cancel</button>
-      <button class="btn btn-primary" (click)="createUser()">Create User</button>
+      <button class="btn btn-primary" (click)="saveUser()">{{ isEditMode ? 'Update User' : 'Create User' }}</button>
     </div>
   </div>
 </div>

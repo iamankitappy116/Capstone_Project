@@ -65,6 +65,7 @@ namespace ProfileBook.API.Services.Implementations
             user.ProfileImage = request.ProfileImage;
             user.Bio = request.Bio;
             user.Location = request.Location;
+            user.Role = request.Role ?? user.Role;
 
             await _context.SaveChangesAsync();
 
@@ -127,42 +128,96 @@ namespace ProfileBook.API.Services.Implementations
 
             if (user == null) return false;
 
-            // 1. Delete Reports where user is reporter or reported
+            // 1. Handle Follows & Sync Counts
+            var follows = await _context.UserFollows
+                .Where(f => f.FollowerId == id || f.FollowingId == id)
+                .ToListAsync();
+
+            foreach (var follow in follows)
+            {
+                if (follow.FollowerId == id)
+                {
+                    // User was following someone, decrement their follower count
+                    var following = await _context.Users.FindAsync(follow.FollowingId);
+                    if (following != null && following.FollowerCount > 0) following.FollowerCount--;
+                }
+                else
+                {
+                    // Someone was following the user, decrement their following count
+                    var follower = await _context.Users.FindAsync(follow.FollowerId);
+                    if (follower != null && follower.FollowingCount > 0) follower.FollowingCount--;
+                }
+            }
+            _context.UserFollows.RemoveRange(follows);
+
+            // 2. Delete Reports
             var reports = await _context.Reports
                 .Where(r => r.ReportedUserId == id || r.ReportingUserId == id)
                 .ToListAsync();
             _context.Reports.RemoveRange(reports);
 
-            // 2. Delete Messages where user is sender or receiver
+            // 3. Delete Messages
             var messages = await _context.Messages
                 .Where(m => m.SenderId == id || m.ReceiverId == id)
                 .ToListAsync();
             _context.Messages.RemoveRange(messages);
 
-            // 3. Delete Group Memberships
-            var groupMembers = await _context.GroupMembers
+            // 4. Handle Group Memberships (where user is just a member)
+            var personalMemberships = await _context.GroupMembers
                 .Where(gm => gm.UserId == id)
                 .ToListAsync();
-            _context.GroupMembers.RemoveRange(groupMembers);
+            _context.GroupMembers.RemoveRange(personalMemberships);
 
-            // 4. Handle Groups created by user (Delete them)
+            // 5. Handle Groups Created by User
             var createdGroups = await _context.Groups
                 .Where(g => g.CreatedByUserId == id)
                 .ToListAsync();
-            _context.Groups.RemoveRange(createdGroups);
 
-            // 5. Delete user's content (Posts, Comments, Likes)
-            // Note: Cascade deletes on Post should handle its comments/likes if configured in DB,
-            // but we'll be explicit for safety.
+            if (createdGroups.Any())
+            {
+                var groupIds = createdGroups.Select(g => g.GroupId).ToList();
+
+                // Delete all memberships in these groups
+                var allGroupMembers = await _context.GroupMembers
+                    .Where(gm => groupIds.Contains(gm.GroupId))
+                    .ToListAsync();
+                _context.GroupMembers.RemoveRange(allGroupMembers);
+
+                // Delete all posts in these groups
+                var groupPosts = await _context.Posts
+                    .Include(p => p.Comments)
+                    .Include(p => p.Likes)
+                    .Where(p => p.GroupId != null && groupIds.Contains(p.GroupId.Value))
+                    .ToListAsync();
+
+                foreach (var p in groupPosts)
+                {
+                    _context.Comments.RemoveRange(p.Comments);
+                    _context.Likes.RemoveRange(p.Likes);
+                }
+                _context.Posts.RemoveRange(groupPosts);
+
+                // Finally delete the groups
+                _context.Groups.RemoveRange(createdGroups);
+            }
+
+            // 6. Delete User's Content (not already deleted via group cleanup)
+            // Need to ensure comments/likes on these posts are also cleared if not handled by group cleanup
+            foreach (var p in user.Posts)
+            {
+                var postComments = await _context.Comments.Where(c => c.PostId == p.PostId).ToListAsync();
+                var postLikes = await _context.Likes.Where(l => l.PostId == p.PostId).ToListAsync();
+                _context.Comments.RemoveRange(postComments);
+                _context.Likes.RemoveRange(postLikes);
+            }
+            _context.Posts.RemoveRange(user.Posts);
             _context.Comments.RemoveRange(user.Comments);
             _context.Likes.RemoveRange(user.Likes);
-            _context.Posts.RemoveRange(user.Posts);
 
-            // 6. Delete the user
+            // 7. Delete the User
             _context.Users.Remove(user);
 
             await _context.SaveChangesAsync();
-
             return true;
         }
     }

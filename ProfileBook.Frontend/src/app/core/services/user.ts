@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, catchError, throwError } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -34,7 +34,15 @@ export class UserService {
   }
 
   getMyProfile(): Observable<any> {
-    return this.http.get<any>(`http://localhost:5134/api/auth/profile`, { headers: this.getHeaders() });
+    return this.http.get<any>(`http://localhost:5134/api/auth/profile`, { headers: this.getHeaders() })
+      .pipe(
+        catchError(err => {
+          if (err.status === 404) {
+            this.logout();
+          }
+          return throwError(() => err);
+        })
+      );
   }
 
   getAllUsers(): Observable<any[]> {

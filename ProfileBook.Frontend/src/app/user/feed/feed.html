@@ -38,8 +38,14 @@
                     <h3>{{ post.userName }}</h3>
                     <span>{{ post.createdAt | date:'short' }}</span>
                 </div>
-                <div class="post-options">
+                <div class="post-options" (click)="toggleOptionsMenu(post.postId, $event)">
                     <i class="fa-solid fa-ellipsis"></i>
+                    <div class="options-dropdown" *ngIf="showOptionsMenu === post.postId">
+                        <div class="option-item report-option" (click)="openReportModal(post, $event)">
+                            <i class="fa-solid fa-flag"></i>
+                            Report User
+                        </div>
+                    </div>
                 </div>
             </div>
             <div class="post-content">
@@ -118,4 +124,25 @@
         </div>
     </div>
 
+</div>
+
+<!-- Report User Modal -->
+<div class="modal-overlay" *ngIf="showReportModal" (click)="closeReportModal()">
+    <div class="report-modal" (click)="$event.stopPropagation()">
+        <div class="report-modal-header">
+            <h3><i class="fa-solid fa-flag" style="color: #ef4444; margin-right: 8px;"></i>Report User</h3>
+            <button class="close-btn" (click)="closeReportModal()"><i class="fa-solid fa-xmark"></i></button>
+        </div>
+        <p class="report-subtitle">Reporting <strong>{{reportTarget?.username}}</strong></p>
+        <div class="report-reasons">
+            <label class="reason-option" *ngFor="let reason of reportReasons">
+                <input type="radio" name="reportReason" [value]="reason" [(ngModel)]="reportReason">
+                <span>{{ reason }}</span>
+            </label>
+        </div>
+        <div class="report-modal-actions">
+            <button class="cancel-btn" (click)="closeReportModal()">Cancel</button>
+            <button class="submit-btn" (click)="submitReport()" [disabled]="!reportReason">Submit Report</button>
+        </div>
+    </div>
 </div>

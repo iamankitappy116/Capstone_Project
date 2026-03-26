@@ -89,12 +89,19 @@ public class DataContext : DbContext
         .HasForeignKey(f => f.FollowerId)
         .OnDelete(DeleteBehavior.Restrict);
 
-    modelBuilder.Entity<UserFollow>()
-        .HasOne(f => f.Following)
-        .WithMany()
-        .HasForeignKey(f => f.FollowingId)
-        .OnDelete(DeleteBehavior.Restrict);
-    }
+        modelBuilder.Entity<UserFollow>()
+            .HasOne(f => f.Following)
+            .WithMany()
+            .HasForeignKey(f => f.FollowingId)
+            .OnDelete(DeleteBehavior.Restrict);
 
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Username)
+            .IsUnique();
+
+        modelBuilder.Entity<User>()
+            .HasIndex(u => u.Email)
+            .IsUnique();
+    }
 }
 

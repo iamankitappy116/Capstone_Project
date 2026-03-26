@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { DashboardService } from '../../../core/services/dashboard';
 import { Router } from '@angular/router';
+import { SignalRService } from '../../../core/services/signalr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-admin-dashboard',
@@ -8,7 +10,7 @@ import { Router } from '@angular/router';
   templateUrl: './admin-dashboard.html',
   styleUrl: './admin-dashboard.css'
 })
-export class AdminDashboardComponent implements OnInit {
+export class AdminDashboardComponent implements OnInit, OnDestroy {
   stats: any = {
     totalUsers: 0,
     pendingPosts: 0,
@@ -17,23 +19,38 @@ export class AdminDashboardComponent implements OnInit {
     recentActivities: []
   };
   username: string | null = '';
+  private notificationSub: Subscription | null = null;
 
   constructor(
     private dashboardService: DashboardService,
-    private router: Router
+    private router: Router,
+    private signalRService: SignalRService
   ) {}
 
   ngOnInit(): void {
     this.username = sessionStorage.getItem('username');
     this.loadStats();
+
+    // SignalR Setup
+    this.signalRService.startConnection();
+    this.notificationSub = this.signalRService.notification$.subscribe(message => {
+      if (message.includes('post approval request')) {
+        alert(message);
+        this.loadStats(); // Refresh stats for pending post count
+      }
+    });
+  }
+
+  ngOnDestroy(): void {
+    if (this.notificationSub) {
+      this.notificationSub.unsubscribe();
+    }
+    this.signalRService.stopConnection();
   }
 
   loadStats(): void {
     this.dashboardService.getStats().subscribe({
       next: (data) => {
-        console.log('Keys in data:', Object.keys(data));
-        console.log('Full data object:', JSON.stringify(data));
-
         this.stats = {
           totalUsers: data.totalUsers ?? data.TotalUsers ?? 0,
           pendingPosts: data.pendingPosts ?? data.PendingPosts ?? 0,
@@ -45,7 +62,6 @@ export class AdminDashboardComponent implements OnInit {
             timeAgo: a.timeAgo ?? a.TimeAgo ?? ''
           }))
         };
-        console.log('Mapped stats:', this.stats);
       },
       error: (err) => {
         console.error('Error loading dashboard stats', err);

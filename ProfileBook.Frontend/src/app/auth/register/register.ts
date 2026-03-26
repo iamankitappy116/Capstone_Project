@@ -20,6 +20,13 @@ export class Register {
 
   constructor(private auth: Auth, private router: Router) {}
 
+  goToNextField(event: any, nextInput: any) {
+    event.preventDefault();
+    if (nextInput && typeof nextInput.focus === 'function') {
+      nextInput.focus();
+    }
+  }
+
   onSubmit(){
     this.errorMessage = '';
     this.successMessage = '';
@@ -29,12 +36,10 @@ export class Register {
     }
     this.auth.register(this.registerData).subscribe({
       next: (res: any) => {
-        console.log('success', res);
         this.successMessage = 'Registration successful! You can now log in.';
         setTimeout(() => this.router.navigate(['/login']), 2000);
       },
       error: (err: any) => {
-        console.log('error', err);
         this.errorMessage = err.error || 'Registration failed.';
       },
     });

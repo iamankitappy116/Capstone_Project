@@ -56,4 +56,12 @@ export class DashboardService {
   createUser(user: any): Observable<any> {
     return this.http.post<any>(`${this.baseUrl}/user`, user, { headers: this.getHeaders() });
   }
+
+  updateUser(id: number, user: any): Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/user/${id}`, user, { headers: this.getHeaders() });
+  }
+
+  addUserToGroup(payload: { groupId: number, userId: number }): Observable<any> {
+    return this.http.post(`${this.baseUrl}/group/join`, payload, { headers: this.getHeaders(), responseType: 'text' });
+  }
 }
